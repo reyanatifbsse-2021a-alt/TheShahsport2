@@ -708,6 +708,91 @@
         }
 
         /* ============================================
+           DESIGN AS LANGUAGE SECTION
+        ============================================ */
+        .design-language {
+            padding: var(--space-2xl) 0;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, #E8E6E0 0%, var(--bg-bone) 100%);
+        }
+
+        .design-language::before {
+            content: 'LANGUAGE';
+            position: absolute;
+            top: 50%;
+            right: -5%;
+            transform: translateY(-50%) rotate(90deg);
+            font-size: 10rem;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            color: var(--text-charcoal);
+            opacity: 0.02;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .design-language .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            align-items: center;
+        }
+
+        .design-language-content {
+            padding-left: var(--space-lg);
+        }
+
+        .design-language-headline {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-md);
+        }
+
+        .design-language-text {
+            font-size: 1.05rem;
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--text-charcoal);
+            opacity: 0.75;
+            margin-bottom: var(--space-sm);
+        }
+
+        .design-language-visual {
+            position: relative;
+            height: 550px;
+        }
+
+        .design-language-img {
+            position: absolute;
+            width: 80%;
+            height: 90%;
+            left: 0;
+            background: linear-gradient(145deg, #e8e6e0 0%, #d4d2cc 100%);
+            overflow: hidden;
+            box-shadow: 0 50px 100px -30px rgba(0, 0, 0, 0.12);
+        }
+
+        .design-language-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .design-language-accent {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 60%;
+            height: 60%;
+            border: 1px solid var(--accent-gold);
+            opacity: 0.3;
+            animation: floatDelayed 7s ease-in-out infinite;
+        }
+
+        /* ============================================
            TECH STACK SECTION
         ============================================ */
         .tech-stack {
@@ -1292,6 +1377,25 @@
                 transform: translateX(-50%);
             }
 
+            .design-language .container {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+
+            .design-language-content {
+                padding-left: 0;
+                order: 1;
+            }
+
+            .design-language-visual {
+                order: 2;
+                height: 400px;
+            }
+
+            .design-language-img {
+                width: 100%;
+            }
+
             .tech-cards {
                 grid-template-columns: 1fr;
                 gap: var(--space-sm);
@@ -1405,6 +1509,10 @@
                 display: none;
             }
 
+            .design-language-accent {
+                display: none;
+            }
+
             .tech-card {
                 padding: var(--space-md);
             }
@@ -1508,7 +1616,8 @@
         <div class="container">
             <a href="#" class="logo">THE SHAHS</a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#philosophy">Protocol</a></li>
+                <li><a href="#philosophy">About</a></li>
+                <li><a href="#design-language">Design</a></li>
                 <li><a href="#collection">Collection</a></li>
                 <li><a href="#tech">Verify</a></li>
             </ul>
@@ -1561,12 +1670,21 @@
     <section class="philosophy" id="philosophy">
         <div class="container">
             <div class="philosophy-content">
-                <span class="section-label reveal">The Protocol</span>
-                <h2 class="philosophy-headline reveal reveal-delay-1">THE ARCHITECTURAL PROTOCOL</h2>
+                <span class="section-label reveal">Who We Are</span>
+                <h2 class="philosophy-headline reveal reveal-delay-1">DIGITALLY ENRICHED IDENTITY ASSETS</h2>
                 <p class="philosophy-text reveal reveal-delay-2">
-                    The Shahs is architecting the future of Identity Assets. From the disruptors in San Francisco to the
-                    heritage collectors in Europe, luxury must move beyond the logo. We solve the Physical Oracle
-                    problem by providing a relevant connection that is both ancient and immutable.
+                    The Shahs is a luxury venture redefining premium fashion by creating Digitally Enriched Identity
+                    Assets. We transform antique Chitrali embroidery into Limited Edition immersive garments that bridge
+                    the gap between ancient craftsmanship and the modern digital economy.
+                </p>
+                <p class="philosophy-text reveal reveal-delay-3">
+                    By integrating NFC, QR protocols, and NFT assets, we provide each piece with a Digital Soul — a
+                    verifiable, immutable connection between the artisan's skill and the wearer's personal identity.
+                    Each garment is not just apparel; it is a traceable cultural artifact and a liquid digital asset.
+                </p>
+                <p class="philosophy-text reveal reveal-delay-4">
+                    Our mission is to scale heritage craftsmanship into a globally relevant standard, ensuring that
+                    every thread carries a secure record of its origin, ownership, and value.
                 </p>
             </div>
             <div class="philosophy-visual">
@@ -1584,6 +1702,38 @@
                         <div class="stat-label">Authenticity</div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design as Language Section -->
+    <section class="design-language" id="design-language">
+        <div class="container">
+            <div class="design-language-visual">
+                <div class="design-language-img antigravity-delayed reveal">
+                    <img src="hero-bg.jpg" alt="Metadata Mirrors">
+                </div>
+                <div class="design-language-accent"></div>
+            </div>
+            <div class="design-language-content">
+                <span class="section-label reveal">Design as Language</span>
+                <h2 class="design-language-headline reveal reveal-delay-1">METADATA MIRRORS</h2>
+                <p class="design-language-text reveal reveal-delay-2">
+                    The experience begins the moment you grasp the fabric. Our Limited Edition collections are not
+                    random designs; they are Metadata Mirrors. We have decoded the geometric language of Chitral North
+                    to speak directly to the wearer's specific identity.
+                </p>
+                <p class="design-language-text reveal reveal-delay-3">
+                    Each pattern is a scripted archive of heritage, where every stitch functions as a data point in a
+                    larger narrative of resilience and skill. By integrating digital protocols directly into these
+                    ancient geometries, we transform silent embroidery into an interactive dialogue.
+                </p>
+                <p class="design-language-text reveal reveal-delay-4">
+                    Through an AR-driven interface, the wearer unlocks the digital soul of the garment, translating
+                    complex ancestral symbols into a verifiable, immersive history. This is a new syntax of luxury where
+                    the connection between the artisan's hand and the wearer's identity is immutable, transparent, and
+                    globally resonant.
+                </p>
             </div>
         </div>
     </section>
@@ -1746,7 +1896,8 @@
             <div class="footer-brand">THE SHAHS</div>
             <p class="footer-text">© 2026 THE SHAHS. Engineered by <span>The Architectural Protocol</span>.</p>
             <ul class="footer-links">
-                <li><a href="#philosophy">Protocol</a></li>
+                <li><a href="#philosophy">About</a></li>
+                <li><a href="#design-language">Design</a></li>
                 <li><a href="#collection">Collection</a></li>
                 <li><a href="#tech">Verify</a></li>
             </ul>
