@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator | THE SHAHS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-bone: #F2F0EA;
+            --text-charcoal: #1A1A1A;
+            --accent-gold: #C5A059;
+            --gold-light: rgba(197, 160, 89, 0.15);
+            --gold-glow: rgba(197, 160, 89, 0.4);
+            --font-primary: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-bone);
+            color: var(--text-charcoal);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* ── Nav bar ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 2rem;
+            background: rgba(242, 240, 234, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-charcoal);
+        }
+
+        .nav-back {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            padding: 0.4rem 1rem;
+            border-radius: 2px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav-back:hover {
+            background: var(--accent-gold);
+            color: #fff;
+        }
+
+        /* ── Calculator card ── */
+        .calc-wrapper {
+            margin-top: 5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .calc-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+        }
+
+        .calculator {
+            background: #fff;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(26, 26, 26, 0.08),
+                0 0 0 1px rgba(197, 160, 89, 0.05);
+            width: 320px;
+            overflow: hidden;
+        }
+
+        /* ── Display ── */
+        .display {
+            background: var(--text-charcoal);
+            padding: 1.25rem 1.5rem 1rem;
+            text-align: right;
+        }
+
+        .display-expression {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.45);
+            min-height: 1.2em;
+            letter-spacing: 0.05em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .display-value {
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: #fff;
+            margin-top: 0.25rem;
+            letter-spacing: -0.02em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+
+        /* ── Button grid ── */
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: rgba(197, 160, 89, 0.15);
+        }
+
+        .btn {
+            background: #fff;
+            border: none;
+            padding: 1.1rem 0.5rem;
+            font-family: var(--font-primary);
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-charcoal);
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            user-select: none;
+        }
+
+        .btn:hover {
+            background: var(--gold-light);
+        }
+
+        .btn:active {
+            background: rgba(197, 160, 89, 0.35);
+        }
+
+        /* Operator buttons */
+        .btn-op {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* Equals button */
+        .btn-eq {
+            background: var(--accent-gold);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .btn-eq:hover {
+            background: #b08a44;
+        }
+
+        .btn-eq:active {
+            background: #9a7835;
+        }
+
+        /* Clear / function buttons */
+        .btn-fn {
+            color: var(--accent-gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+        }
+
+        /* Zero button spans 2 columns */
+        .btn-zero {
+            grid-column: span 2;
+            text-align: left;
+            padding-left: 1.6rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a class="nav-logo" href="index.html">THE SHAHS</a>
+        <a class="nav-back" href="index.html">← Back</a>
+    </nav>
+
+    <div class="calc-wrapper">
+        <p class="calc-title">Calculator</p>
+
+        <div class="calculator" role="application" aria-label="Calculator">
+            <!-- Display -->
+            <div class="display">
+                <div class="display-expression" id="expression" aria-live="polite"></div>
+                <div class="display-value" id="display" aria-live="assertive">0</div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="buttons">
+                <!-- Row 1 -->
+                <button class="btn btn-fn" data-action="clear">AC</button>
+                <button class="btn btn-fn" data-action="sign">+/-</button>
+                <button class="btn btn-fn" data-action="percent">%</button>
+                <button class="btn btn-op" data-action="operator" data-value="/">÷</button>
+
+                <!-- Row 2 -->
+                <button class="btn" data-action="digit" data-value="7">7</button>
+                <button class="btn" data-action="digit" data-value="8">8</button>
+                <button class="btn" data-action="digit" data-value="9">9</button>
+                <button class="btn btn-op" data-action="operator" data-value="*">×</button>
+
+                <!-- Row 3 -->
+                <button class="btn" data-action="digit" data-value="4">4</button>
+                <button class="btn" data-action="digit" data-value="5">5</button>
+                <button class="btn" data-action="digit" data-value="6">6</button>
+                <button class="btn btn-op" data-action="operator" data-value="-">−</button>
+
+                <!-- Row 4 -->
+                <button class="btn" data-action="digit" data-value="1">1</button>
+                <button class="btn" data-action="digit" data-value="2">2</button>
+                <button class="btn" data-action="digit" data-value="3">3</button>
+                <button class="btn btn-op" data-action="operator" data-value="+">+</button>
+
+                <!-- Row 5 -->
+                <button class="btn btn-zero" data-action="digit" data-value="0">0</button>
+                <button class="btn" data-action="decimal">.</button>
+                <button class="btn btn-eq" data-action="equals">=</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        const expression = document.getElementById('expression');
+
+        let currentValue = '0';
+        let previousValue = null;
+        let operator = null;
+        let waitingForOperand = false;
+        let expressionStr = '';
+
+        function formatNumber(str) {
+            if (str === 'Error') return 'Error';
+            const num = parseFloat(str);
+            if (!isFinite(num)) return 'Error';
+            // Keep the raw string while the user is typing (it may end with '.')
+            if (str.endsWith('.')) return str;
+            // For very large or very small values use locale string, but cap at 10 sig figs
+            if (Math.abs(num) >= 1e10 || (Math.abs(num) < 1e-6 && num !== 0)) {
+                return num.toExponential(4);
+            }
+            // Avoid floating-point artifacts (e.g. 0.1+0.2 = 0.30000000000000004)
+            const rounded = parseFloat(num.toPrecision(10));
+            // Re-stringify, trimming trailing zeros after the decimal
+            let result = String(rounded);
+            if (result.includes('.')) result = result.replace(/\.?0+$/, '');
+            return result;
+        }
+
+        function updateDisplay() {
+            display.textContent = formatNumber(currentValue);
+            expression.textContent = expressionStr;
+        }
+
+        function handleDigit(digit) {
+            if (currentValue === 'Error') return;
+            if (waitingForOperand) {
+                currentValue = digit;
+                waitingForOperand = false;
+            } else {
+                currentValue = currentValue === '0' ? digit : currentValue + digit;
+            }
+            updateDisplay();
+        }
+
+        function handleDecimal() {
+            if (waitingForOperand) {
+                currentValue = '0.';
+                waitingForOperand = false;
+                updateDisplay();
+                return;
+            }
+            if (!currentValue.includes('.')) {
+                currentValue += '.';
+                updateDisplay();
+            }
+        }
+
+        function handleOperator(op) {
+            const inputValue = parseFloat(currentValue);
+
+            if (previousValue !== null && !waitingForOperand) {
+                const result = calculate(previousValue, inputValue, operator);
+                currentValue = String(result);
+                previousValue = result;
+            } else {
+                previousValue = inputValue;
+            }
+
+            operator = op;
+            waitingForOperand = true;
+
+            const opDisplay = { '+': '+', '-': '−', '*': '×', '/': '÷' }[op] || op;
+            expressionStr = `${previousValue} ${opDisplay}`;
+            updateDisplay();
+        }
+
+        function calculate(a, b, op) {
+            switch (op) {
+                case '+': return a + b;
+                case '-': return a - b;
+                case '*': return a * b;
+                case '/': return b !== 0 ? a / b : 'Error';
+                default: return b;
+            }
+        }
+
+        function handleEquals() {
+            if (operator === null || waitingForOperand) return;
+
+            const inputValue = parseFloat(currentValue);
+            const opDisplay = { '+': '+', '-': '−', '*': '×', '/': '÷' }[operator] || operator;
+            expressionStr = `${previousValue} ${opDisplay} ${inputValue} =`;
+
+            const result = calculate(previousValue, inputValue, operator);
+            if (result === 'Error') {
+                currentValue = 'Error';
+                expressionStr = 'Cannot divide by zero';
+                previousValue = null;
+                operator = null;
+                waitingForOperand = true;
+                updateDisplay();
+                return;
+            }
+            currentValue = String(result);
+            previousValue = null;
+            operator = null;
+            waitingForOperand = true;
+            updateDisplay();
+        }
+
+        function handleClear() {
+            currentValue = '0';
+            previousValue = null;
+            operator = null;
+            waitingForOperand = false;
+            expressionStr = '';
+            updateDisplay();
+        }
+
+        function handleSign() {
+            if (currentValue === 'Error') return;
+            const hasTrailingDot = currentValue.endsWith('.');
+            currentValue = String(parseFloat(currentValue) * -1);
+            if (hasTrailingDot) currentValue += '.';
+            updateDisplay();
+        }
+
+        function handlePercent() {
+            if (currentValue === 'Error') return;
+            const hasTrailingDot = currentValue.endsWith('.');
+            currentValue = String(parseFloat(currentValue) / 100);
+            if (hasTrailingDot) currentValue += '.';
+            updateDisplay();
+        }
+
+        // Button clicks
+        document.querySelector('.buttons').addEventListener('click', function (e) {
+            const btn = e.target.closest('[data-action]');
+            if (!btn) return;
+
+            const action = btn.dataset.action;
+            const value = btn.dataset.value;
+
+            switch (action) {
+                case 'digit':    handleDigit(value); break;
+                case 'decimal':  handleDecimal(); break;
+                case 'operator': handleOperator(value); break;
+                case 'equals':   handleEquals(); break;
+                case 'clear':    handleClear(); break;
+                case 'sign':     handleSign(); break;
+                case 'percent':  handlePercent(); break;
+            }
+        });
+
+        // Keyboard support
+        document.addEventListener('keydown', function (e) {
+            if (e.key >= '0' && e.key <= '9') handleDigit(e.key);
+            else if (e.key === '.') handleDecimal();
+            else if (e.key === '+') handleOperator('+');
+            else if (e.key === '-') handleOperator('-');
+            else if (e.key === '*') handleOperator('*');
+            else if (e.key === '/') { e.preventDefault(); handleOperator('/'); }
+            else if (e.key === 'Enter' || e.key === '=') handleEquals();
+            else if (e.key === 'Escape') handleClear();
+            else if (e.key === 'Backspace') {
+                if (!waitingForOperand && currentValue !== 'Error') {
+                    const next = currentValue.slice(0, -1);
+                    // If only '-' or empty remains, reset to '0'
+                    if (next === '' || next === '-') {
+                        currentValue = '0';
+                        waitingForOperand = false;
+                    } else {
+                        currentValue = next;
+                    }
+                } else {
+                    currentValue = '0';
+                    waitingForOperand = false;
+                }
+                updateDisplay();
+            }
+            else if (e.key === '%') handlePercent();
+        });
+    </script>
+</body>
+
+</html>
